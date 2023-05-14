@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "project-ubenyo"
+name = "project-asbc"
 version = "0.1.0"
 description = ""
 authors = ["lxRbckl <lxrbckl@gmail.com>"]
 readme = "README.md"
-packages = [{include = "project_ubenyo"}]
+packages = [{include = "project_asbc"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
