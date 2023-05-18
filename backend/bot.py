@@ -71,8 +71,12 @@ async def on_ready():
     # while (running) <
     while (True):
 
+        # start <
         # update <
+        obj.start()
         obj.update()
+
+        await sleep(30)
 
         # >
 
