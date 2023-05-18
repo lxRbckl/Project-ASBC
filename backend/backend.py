@@ -29,13 +29,25 @@ class backend:
         self.configuration = self.update()
 
     
-    def start(self):
+    def open(self):
         '''  '''
 
         # start bluestack <
-        # select blink application <
         system(f'open {self.applicationPath}')
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/blink.png'))
+
+        # >
+    
+
+    def start(
+            
+        self,
+        icon: str
+
+    ):
+        '''  '''
+
+        # open application given icon <
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/{icon}'))
 
         # >
     
@@ -173,6 +185,17 @@ class backend:
         # >
 
         return configuration
+    
+
+    def refresh(self):
+        '''  '''
+
+        # click home page <
+        # click clips page <
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/home.png'))
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'))
+
+        # >
 
 
     def clear(self):

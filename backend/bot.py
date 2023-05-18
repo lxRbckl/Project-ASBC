@@ -68,15 +68,24 @@ async def on_ready():
 
     # >
 
+    # open <
+    # wait to load <
+    # start (blink) <
+    obj.open()
+    await sleep(60)
+    obj.start(icon = 'blink.png')
+
+    # >
+
     # while (running) <
     while (True):
 
-        # start <
         # update <
-        obj.start()
+        # load videos <
+        # wait to load <
         obj.update()
-
-        await sleep(30)
+        obj.refresh()
+        await sleep(15)
 
         # >
 
