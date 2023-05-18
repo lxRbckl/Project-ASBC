@@ -18,7 +18,6 @@ class backend:
     dataPath = 'backend/data'
     assetPath = 'backend/asset'
     model = load('ultralytics/yolov5', 'yolov5s')
-    applicationPath = '/Application/BlueStacks.app'
 
     # >
 
@@ -32,8 +31,9 @@ class backend:
     def open(self):
         '''  '''
 
-        # start bluestack <
-        system(f'open {self.applicationPath}')
+        # start bluestack on desktop <
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'))
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'))
 
         # >
     
