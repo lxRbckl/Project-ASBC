@@ -12,7 +12,7 @@ gBackgroundColor = '#f8f0e3'
 # >
 
 
-def fLayout(pConfiguration: dict):
+def layout(pConfiguration: dict):
     '''  '''
 
     return dbc.Container(
@@ -57,12 +57,8 @@ def fLayout(pConfiguration: dict):
                                     is_open = False,
                                     duration = 3500,
                                     dismissable = True,
-                                    children = [
-
-                                        html.Small('configuration.json was updated.'),
-                                        html.Small('If token was updated, then restart is required.')
-
-                                    ]
+                                    style = dict(margin = 0, padding = 0),
+                                    children = 'configuration.json was updated.'
 
                                 ),
 

@@ -7,7 +7,7 @@ from lxRbckl import jsonLoad, jsonDump
 from dash.dependencies import Input, Output, State
 
 from backend.bot import bot
-from frontend.frontend import fLayout
+from frontend.frontend import layout
 from backend.resource import gDirectory, application, gConfigurationPath
 
 # >
@@ -23,7 +23,7 @@ def layoutCallback(layoutChildren: list):
     '''  '''
 
     configuration = jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')
-    return fLayout(pConfiguration = configuration)
+    return layout(pConfiguration = configuration)
 
 
 @application.callback(
@@ -94,13 +94,14 @@ def submitCallback(
 # main <
 if (__name__ == '__main__'):
 
-    bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token'])
-
-
+    # start bot <
+    # start ui <
     # x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/configuration.json')['token']))
-    # x2 = Process(target = application.run_server(port = 8159))
+    x2 = Process(target = application.run_server(port = 8159))
 
     # x1.start()
-    # x2.start()
+    x2.start()
+
+    # >
 
 # >

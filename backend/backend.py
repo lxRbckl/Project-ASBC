@@ -1,7 +1,5 @@
 # import <
-
 from time import sleep
-
 from random import choice
 from torch.hub import load
 from lxRbckl import jsonLoad
@@ -58,18 +56,20 @@ class backend:
         # >
 
         # if (new video) <
-        # if (newVideo):
+        if (newVideo):
 
-        # select new video <
-        # iterate (duration) <
-        click(newVideo)
-        for i in range(self.configuration['duration']):
+            # select new video <
+            # iterate (duration) <
+            click(newVideo)
+            for i in range(self.configuration['duration']):
 
-            image = grab()
-            images.append(image)
+                image = grab()
+                images.append(image)
 
-            sleep(1) # need to be asyncio?
-        
+                sleep(1)
+            
+            # >
+            
         # >
 
         return images
@@ -182,5 +182,3 @@ class backend:
         system(f'rm -r {gDirectory}/{self.dataPath}/')
 
         # >
-    
-

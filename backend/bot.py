@@ -34,7 +34,7 @@ async def notify(
     # local <
     title = f'{object} identified.'
     f = File(f'{path}/{file}', filename = 'image.png')
-    description = f'**{count} {object}(s)** have been identified with **{confidence}%** confidence.'
+    description = f'**{count} {object}**(s) have been identified with **{confidence}**% confidence.'
 
     # >
 
@@ -110,7 +110,6 @@ async def on_ready():
 
         # sleep <
         await sleep(obj.configuration['sleep'])
-        break
 
         # >
     
