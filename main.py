@@ -96,10 +96,10 @@ if (__name__ == '__main__'):
 
     # start bot <
     # start ui <
-    # x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/configuration.json')['token']))
+    x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']))
     x2 = Process(target = application.run_server(port = 8159))
 
-    # x1.start()
+    x1.start()
     x2.start()
 
     # >
