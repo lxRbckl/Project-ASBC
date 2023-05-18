@@ -1,171 +1,106 @@
-# Project Ubenyo by Alex Arbuckle #
+# Project ASBC by Alex Arbuckle #
 
 
 # import <
-from time import sleep
-from torch.hub import load
-from PIL.ImageGrab import grab
-from discord.ext import commands
-from os import system, path, listdir
-from discord import Intents, Embed, File
-from pyautogui import click, locateOnScreen
+from multiprocessing import Process
+from lxRbckl import jsonLoad, jsonDump
+from dash.dependencies import Input, Output, State
+
+from backend.bot import bot
+from frontend.frontend import fLayout
+from backend.resource import gDirectory, application, gConfigurationPath
 
 # >
 
 
-# global <
-gThreshold = 1
-gVideoLength = 2
-gWatchList = ('person')
-gChannel = 1106111647057203242
-gPath = path.realpath(__file__).split('/')
-gModel = load('ultralytics/yolov5', 'yolov5s')
-gDirectory = '/'.join(gPath[:(len(gPath) - 1)])
-gApplicationPath = '/Application/BlueStacks.app'
-ubenyo = commands.Bot(command_prefix = '', intents = Intents.all())
-
-gToken = ''
-
-# >
-
-
-def start():
-    '''  '''
-
-    # start bluestack <
-    # select blink application <
-    system(f'open {gApplicationPath}')
-    click(locateOnScreen('asset/blink.png'))
-
-    # >
-
-
-async def monitor():
-    '''  '''
-
-    # local <
-    images = []
-
-    # >
-
-    # select clips <
-    # get video state <
-    click(locateOnScreen('asset/clips.png'))
-    newVideo = locateOnScreen('asset/new.png')
-
-    # >
-
-    # if (new video) <
-    # if (isNewVideo):
-
-    # click video <
-    # iterate (length) <
-    click(newVideo)
-    for i in range(gVideoLength):
-
-        image = grab()
-        images.append(image)
-    
-    # >
-
-    # send to analyzer <
-    await analyze(images = images)
-
-    # >
-
-    # >
-
-
-async def analyze(images):
-    '''  '''
-
-    # local <
-    data = {}
-    threshold = 0
-
-    # >
-
-    # iterate (image) <
-    for image in images:
-
-        # get object <
-        # get cols from object <
-        result = gModel(image)
-        data = result.pandas().xyxyn[0][['name', 'confidence']].to_numpy()
-
-        # >
-
-        # iterate (observed) <
-        for name, confidence in data:
-
-            # if ((vip classifier) and (insufficient data)) <
-            if ((name in gWatchList) and (gThreshold > threshold)):
-
-                # crop <
-                # notify <
-                result.crop(save_dir = f'{gDirectory}/data/')
-                await notify(
-
-                    name = name,
-                    confidence = confidence
-
-                )
-
-                # >
-
-                # increment <
-                # clear data <
-                threshold += 1
-                system(f'rm -r {gDirectory}/data')
-
-                # >
-
-            # >
-
-        # >
-
-    # >
-
-
-async def notify(
+@application.callback(
         
-        name, 
-        confidence
+    Output('layoutId', 'children'),
+    Input('layoutId', 'children')
+
+)
+def layoutCallback(layoutChildren: list):
+    '''  '''
+
+    configuration = jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')
+    return fLayout(pConfiguration = configuration)
+
+
+@application.callback(
+
+    Output('alertId', 'is_open'),
+    Input('submitId', 'n_clicks'),
+    State('tokenId', 'value'),
+    State('sleepId', 'value'),
+    State('watchId', 'value'),
+    State('onlineId', 'value'),
+    State('channelId', 'value'),
+    State('durationId', 'value'),
+    State('thresholdId', 'value'),
+    State('confidenceId', 'value')
+
+)
+def submitCallback(
+
+    submitClick: int,
+    tokenValue: str,
+    sleepValue: int,
+    watchValue: list,
+    onlineValue: bool,
+    channelValue: int,
+    durationValue: int,
+    thresholdValue: int,
+    confidenceValue: float
 
 ):
     '''  '''
 
-    # set <
-    name = name.title()
-    confidence = round((confidence * 100), 2)
-    image = listdir(f'{gDirectory}/data/crops/{name.lower()}')[0]
-    file = File(f'{gDirectory}/data/crops/{name.lower()}/{image}', filename = 'image.png')
+    preConfiguration = jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')
+    postConfiguration = {
+
+        **{
+
+            'token' : tokenValue,
+            'watch' : watchValue,
+            'online' : onlineValue,
+            'channel' : channelValue,
+            'sleep' : int(sleepValue),
+            'duration' : durationValue,
+            'threshold' : thresholdValue,
+            'confidence' : float(confidenceValue)
+
+        },
+        'all' : preConfiguration['all']
+
+    }
+
+    # if (updated) <
+    # else (then not updated) <
+    if (preConfiguration != postConfiguration):
+
+        jsonDump(
+
+            pData = postConfiguration,
+            pFile = f'{gDirectory}/{gConfigurationPath}'
+
+        )
+        return True
+
+    else: return False
 
     # >
-
-    # set embed <
-    # add image <
-    embed = Embed(
-
-        title = f'{name} identified.',
-        description = f'A **{name}** has been identified with **{confidence}%** confidence.'
-
-    )
-    embed.set_image(url = 'attachment://image.png')
-
-    # >
-
-    await ubenyo.get_channel(gChannel).send(file = file, embed = embed)
-
-
-@ubenyo.event
-async def on_ready():
-    '''  '''
-
-    await monitor()
 
 
 # main <
-if (__name__ == '__main__'): ubenyo.run(gToken)
+if (__name__ == '__main__'):
+
+    bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token'])
+
+
+    # x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/configuration.json')['token']))
+    # x2 = Process(target = application.run_server(port = 8159))
+
+    # x1.start()
+    # x2.start()
 
 # >

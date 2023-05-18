@@ -1,3 +1,4 @@
 .DS_Store
 yolov5s.pt
-data*
+__pycache__*
+*data
