@@ -32,8 +32,7 @@ class backend:
         '''  '''
 
         # start bluestack on desktop <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'))
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'))
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'), clicks = 2)
 
         # >
     
