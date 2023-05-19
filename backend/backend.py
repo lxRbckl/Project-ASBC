@@ -1,6 +1,6 @@
 # import <
-from time import sleep
 from random import choice
+from asyncio import sleep
 from torch.hub import load
 from lxRbckl import jsonLoad
 from os import system, listdir
@@ -26,15 +26,6 @@ class backend:
         '''  '''
 
         self.configuration = self.update()
-
-    
-    def open(self):
-        '''  '''
-
-        # start bluestack on desktop <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/bluestacks.png'), clicks = 2)
-
-        # >
     
 
     def start(
@@ -51,7 +42,7 @@ class backend:
         # >
     
 
-    def monitor(self):
+    async def monitor(self):
         '''  '''
 
         # local <
@@ -60,9 +51,13 @@ class backend:
         # >
 
         # select 'clips' <
+        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'), clicks = 2)
+        await sleep(2)
+
+        # >
+
         # get video status <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'))
-        newVideo = locateOnScreen(f'{gDirectory}/{self.assetPath}/new.png')
+        newVideo = locateOnScreen(f'{gDirectory}/{self.assetPath}/new.png', confidence = 0.8)
 
         # >
 
@@ -71,13 +66,15 @@ class backend:
 
             # select new video <
             # iterate (duration) <
-            click(newVideo)
+            click(newVideo, clicks = 2)
+            await sleep(3)
+
             for i in range(self.configuration['duration']):
 
                 image = grab()
                 images.append(image)
 
-                sleep(1)
+                await sleep(1)
             
             # >
             
@@ -97,7 +94,6 @@ class backend:
         # local <
         data = {}
         analyzed = []
-        threshold = 0
 
         # >
 
@@ -116,17 +112,15 @@ class backend:
 
                 # condition <
                 reqWatch = (name in self.configuration['watch'])
-                reqThreshold = (threshold < self.configuration['threshold'])
                 reqConfidence = ((confidence * 100) > self.configuration['confidence'])
 
                 # >
 
-                # if ((priority) and (insufficient data) and (confident)) <
-                if (reqWatch and reqThreshold and reqConfidence):
+                # if ((priority) and (confident)) <
+                if (reqWatch and reqConfidence):
 
                     result.crop(save_dir = f'{gDirectory}/{self.dataPath}/ultralytics')
                     analyzed.append((name, round((confidence * 100), 2)))
-                    threshold += 1
 
                 # >
             
@@ -186,12 +180,13 @@ class backend:
         return configuration
     
 
-    def refresh(self):
+    async def refresh(self):
         '''  '''
 
         # click home page <
         # click clips page <
         click(locateOnScreen(f'{gDirectory}/{self.assetPath}/home.png'))
+        await sleep(2)
         click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'))
 
         # >

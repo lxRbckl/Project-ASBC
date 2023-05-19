@@ -2,7 +2,7 @@
 
 
 # import <
-from multiprocessing import Process
+from os import system
 from lxRbckl import jsonLoad, jsonDump
 from dash.dependencies import Input, Output, State
 
@@ -91,17 +91,41 @@ def submitCallback(
     # >
 
 
-# main <
-if (__name__ == '__main__'):
+async def startFrontend():
+    '''  '''
 
-    # start bot <
-    # start ui <
-    x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']))
-    x2 = Process(target = application.run_server(port = 8159))
+    application.run_server(port = 8159)
 
-    x1.start()
-    x2.start()
 
-    # >
+def startBackend():
+    '''  '''
 
-# >
+    bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token'])
+
+
+# # main <
+if (__name__ == '__main__'): pass
+
+#     # start bot <
+#     # start ui <
+#     # x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']))
+#     # x2 = Process(target = application.run_server(port = 8159))
+
+#     run(gather(
+
+#         bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']),
+#         application.run_server(port = 8159)
+
+#     ))
+
+#     # x1.start()
+#     # x2.start()
+
+#     # x1.join()
+#     # x2.join()
+
+
+
+#     # >
+
+# # >

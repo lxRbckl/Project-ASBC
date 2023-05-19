@@ -4,7 +4,6 @@ from discord.ext import commands
 from discord import Intents, Embed, File
 
 from backend.backend import backend
-from backend.resource import gDirectory, gConfigurationPath
 
 # >
 
@@ -24,7 +23,6 @@ async def notify(
         
     path: str,
     file: str,
-    count: int,
     object: str,
     channel: int,
     confidence: float
@@ -35,7 +33,7 @@ async def notify(
     # local <
     title = f'{object} identified.'
     f = File(f'{path}/{file}', filename = 'image.png')
-    description = f'**{count} {object}**(s) have been identified with **{confidence}**% confidence.'
+    description = f'**{object}** has been identified with **{confidence}**% confidence.'
 
     # >
 
@@ -69,12 +67,10 @@ async def on_ready():
 
     # >
 
-    # open <
-    # wait to load <
     # start (blink) <
-    obj.open()
-    await sleep(60)
+    # wait to load <
     obj.start(icon = 'blink.png')
+    await sleep(10)
 
     # >
 
@@ -82,11 +78,7 @@ async def on_ready():
     while (True):
 
         # update <
-        # load videos <
-        # wait to load <
         obj.update()
-        obj.refresh()
-        await sleep(15)
 
         # >
 
@@ -96,7 +88,7 @@ async def on_ready():
 
             # screen grab <
             # analyze grabs <
-            images = obj.monitor()
+            images = await obj.monitor()
             analyzed = obj.analyze(images = images)
 
             # >
@@ -122,7 +114,9 @@ async def on_ready():
 
         # >
 
+        # refresh <
         # sleep <
+        await obj.refresh()
         await sleep(obj.configuration['sleep'])
 
         # >
