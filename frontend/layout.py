@@ -121,9 +121,9 @@ def layout(pConfiguration: dict):
 
                                         dbc.Input(
         
-                                            value = pConfiguration[i],
                                             id = f'{i}Id',
-                                            placeholder = i.title()
+                                            placeholder = i.title(),
+                                            value = pConfiguration[i]
                                         
                                         )
 
