@@ -63,7 +63,7 @@ async def notify(
 async def on_ready():
     ''' run functions of module on runtime '''
 
-    # initialize obj <
+    # initialize object <
     # start blink application <
     obj = module()
     await obj.start(icon = 'blink.png')
