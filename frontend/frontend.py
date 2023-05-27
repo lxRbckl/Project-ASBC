@@ -1,8 +1,10 @@
 # import <
 from dash import html, dcc
+from lxRbckl import jsonLoad, jsonDump
 import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
 
-from backend.resource import application
+from backend.resource import gDirectory, application, gConfigurationPath
 
 # >
 
@@ -59,7 +61,6 @@ def layout(pConfiguration: dict):
                                     is_open = False,
                                     duration = 3500,
                                     dismissable = True,
-                                    style = dict(margin = 0, padding = 0),
                                     children = 'configuration.json was updated.'
 
                                 ),
@@ -273,6 +274,84 @@ def layout(pConfiguration: dict):
         )
 
     )
+
+
+@application.callback(
+        
+    Output('layoutId', 'children'),
+    Input('layoutId', 'children')
+
+)
+def layoutCallback(layoutChildren: list):
+    '''  '''
+
+    configuration = jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')
+    return layout(pConfiguration = configuration)
+
+
+@application.callback(
+
+    Output('alertId', 'is_open'),
+    Input('submitId', 'n_clicks'),
+    State('tokenId', 'value'),
+    State('sleepId', 'value'),
+    State('watchId', 'value'),
+    State('onlineId', 'value'),
+    State('channelId', 'value'),
+    State('durationId', 'value'),
+    State('thresholdId', 'value'),
+    State('confidenceId', 'value')
+
+)
+def submitCallback(
+
+    submitClick: int,
+    tokenValue: str,
+    sleepValue: int,
+    watchValue: list,
+    onlineValue: bool,
+    channelValue: int,
+    durationValue: int,
+    thresholdValue: int,
+    confidenceValue: float
+
+):
+    '''  '''
+
+    preConfiguration = jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')
+    postConfiguration = {
+
+        **{
+
+            'token' : tokenValue,
+            'watch' : watchValue,
+            'online' : onlineValue,
+            'channel' : channelValue,
+            'sleep' : int(sleepValue),
+            'duration' : durationValue,
+            'threshold' : thresholdValue,
+            'confidence' : float(confidenceValue)
+
+        },
+        'all' : preConfiguration['all']
+
+    }
+
+    # if (updated) <
+    # else (then not updated) <
+    if (preConfiguration != postConfiguration):
+
+        jsonDump(
+
+            pData = postConfiguration,
+            pFile = f'{gDirectory}/{gConfigurationPath}'
+
+        )
+        return True
+
+    else: return False
+
+    # >
 
 
 def run(): application.run_server(port = 8088)
