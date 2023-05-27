@@ -1,1 +1,1 @@
-{"token": "", "watch": [], "online": true, "channel": 1106111647057203200, "sleep": 4, "duration": 6, "threshold": 2, "confidence": 10.623, "all": ["car", "person"]}
+{"token": "", "watch": [], "online": true, "channel": None, "sleep": 4, "duration": 6, "threshold": 2, "confidence": 10.623, "all": ["car", "person", "truck", "cat", "dog"]}
