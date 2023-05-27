@@ -1,4 +1,5 @@
 # import <
+from os import system
 from random import choice
 from asyncio import sleep
 from torch.hub import load
@@ -28,47 +29,67 @@ class backend:
         self.configuration = self.update()
     
 
-    def start(
+    async def start(
             
         self,
-        icon: str
+        icon: str,
+        pSleep: int = 15
 
     ):
         '''  '''
 
         # open application given icon <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/{icon}'))
+        # wait for application to open <
+        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{icon}'))
+        await sleep(pSleep)
+
+        # >
+
+    
+    def check(
+            
+            self,
+            pConfidence: float = 0.8
+            
+        ):
+        ''' find if there is new footage to view '''
+
+        # return video status <
+        return locateOnScreen(
+            
+            confidence = pConfidence,
+            image = f'{gDirectory}/{self.assetPath}/new.png'
+        
+        )
 
         # >
     
 
-    async def monitor(self):
-        '''  '''
+    async def monitor(
+            
+            self,
+            status
+            
+        ):
+        ''' record new footage to be analyzed '''
 
         # local <
         images = []
 
         # >
 
-        # select 'clips' <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'), clicks = 2)
-        await sleep(2)
-
-        # >
-
-        # get video status <
-        newVideo = locateOnScreen(f'{gDirectory}/{self.assetPath}/new.png', confidence = 0.8)
-
-        # >
+        print(type(status)) # remove
 
         # if (new video) <
-        if (newVideo):
+        if (status):
 
             # select new video <
-            # iterate (duration) <
-            click(newVideo, clicks = 2)
+            click(status, clicks = 2)
             await sleep(3)
 
+            # >
+
+            # iterate (duration) <
             for i in range(self.configuration['duration']):
 
                 image = grab()
@@ -89,7 +110,7 @@ class backend:
         images: list
 
     ):
-        '''  '''
+        ''' review and idenitfy recording using model '''
 
         # local <
         data = {}
@@ -132,7 +153,7 @@ class backend:
 
 
     def get(self):
-        '''  '''
+        ''' get data stored by model '''
 
         # local <
         data = {}
@@ -168,7 +189,7 @@ class backend:
 
 
     def update(self):
-        '''  '''
+        ''' retrieve new settings from user interface '''
 
         # get recent configuration <
         # update instance value <
@@ -181,19 +202,19 @@ class backend:
     
 
     async def refresh(self):
-        '''  '''
+        ''' retrieve new videos from Blink app '''
 
         # click home page <
         # click clips page <
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/home.png'))
+        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/home.png'))
         await sleep(2)
-        click(locateOnScreen(f'{gDirectory}/{self.assetPath}/clips.png'))
+        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/clips.png'))
 
         # >
 
 
     def clear(self):
-        '''  '''
+        ''' remove temporary data created by ultralytics model '''
 
         # recursively remove files from directory <
         system(f'rm -r {gDirectory}/{self.dataPath}/')

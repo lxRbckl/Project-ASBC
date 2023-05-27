@@ -1,9 +1,11 @@
 # import <
 from asyncio import sleep
+from lxRbckl import jsonLoad
 from discord.ext import commands
 from discord import Intents, Embed, File
 
 from backend.backend import backend
+from backend.resource import gDirectory, gConfigurationPath
 
 # >
 
@@ -28,7 +30,7 @@ async def notify(
     confidence: float
     
 ):
-    '''  '''
+    ''' send a discord notification '''
 
     # local <
     title = f'{object} identified.'
@@ -59,66 +61,70 @@ async def notify(
 
 @bot.event
 async def on_ready():
-    '''  '''
-
+    ''' run functions of module on runtime '''
 
     # local <
     obj = backend()
 
     # >
 
-    # start (blink) <
-    # wait to load <
-    obj.start(icon = 'blink.png')
-    await sleep(10)
+    # initialize obj <
+    # start blink application <
+    obj = backend()
+    await obj.start(icon = 'blink.png')
 
     # >
 
     # while (running) <
+    # otherwise restart OS <
     while (True):
-
-        # update <
-        obj.update()
-
-        # >
 
         # if (online) <
         # else (then sleeping) <
         if (obj.configuration['online']):
 
-            # screen grab <
-            # analyze grabs <
-            images = await obj.monitor()
-            analyzed = obj.analyze(images = images)
+            # get status of footage <
+            # record footage if new footage <
+            # review and identify footage from recording <
+            status = obj.check()
+            images = await obj.monitor(status = status)
+            highlights = obj.analyze(images = images)
 
             # >
 
-            # if (qualifying) <
-            if (analyzed): 
-                
-                for (k, v), i in zip(obj.get().items(), analyzed):
+            # if (notable observation(s)) <
+            if (highlights):
+
+                # iterate (notable footage) <
+                # clear saved notable footage <
+                for (k, v), i in zip(obj.get().items(), highlights):
 
                     await notify(
-                        
-                        **v, 
+
+                        **v,
                         confidence = i[1],
                         channel = obj.configuration['channel']
-                    
-                    )
 
+                    )
+                
                 obj.clear()
-            
+
+                # >
+
             # >
 
         else: pass
 
         # >
 
-        # refresh <
-        # sleep <
+        # cycle <
+        obj.update()
         await obj.refresh()
         await sleep(obj.configuration['sleep'])
 
         # >
-    
+        
     # >
+
+
+def run(): bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token'])

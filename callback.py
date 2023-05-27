@@ -1,6 +1,3 @@
-# Project ASBC by Alex Arbuckle #
-
-
 # import <
 from os import system
 from lxRbckl import jsonLoad, jsonDump
@@ -89,43 +86,3 @@ def submitCallback(
     else: return False
 
     # >
-
-
-async def startFrontend():
-    '''  '''
-
-    application.run_server(port = 8159)
-
-
-def startBackend():
-    '''  '''
-
-    bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token'])
-
-
-# # main <
-if (__name__ == '__main__'): pass
-
-#     # start bot <
-#     # start ui <
-#     # x1 = Process(target = bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']))
-#     # x2 = Process(target = application.run_server(port = 8159))
-
-#     run(gather(
-
-#         bot.run(jsonLoad(pFile = f'{gDirectory}/{gConfigurationPath}')['token']),
-#         application.run_server(port = 8159)
-
-#     ))
-
-#     # x1.start()
-#     # x2.start()
-
-#     # x1.join()
-#     # x2.join()
-
-
-
-#     # >
-
-# # >

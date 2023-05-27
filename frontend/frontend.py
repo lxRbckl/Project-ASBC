@@ -2,6 +2,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
+from backend.resource import application
+
 # >
 
 
@@ -271,3 +273,6 @@ def layout(pConfiguration: dict):
         )
 
     )
+
+
+def run(): application.run_server(port = 8088)
