@@ -13,7 +13,7 @@ from backend.resource import gDirectory, gConfigurationPath
 # >
 
 
-class backend:
+class module:
 
     # attribute <
     dataPath = 'backend/data'

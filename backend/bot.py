@@ -4,7 +4,7 @@ from lxRbckl import jsonLoad
 from discord.ext import commands
 from discord import Intents, Embed, File
 
-from backend.backend import backend
+from backend.module import module
 from backend.resource import gDirectory, gConfigurationPath
 
 # >
@@ -63,14 +63,9 @@ async def notify(
 async def on_ready():
     ''' run functions of module on runtime '''
 
-    # local <
-    obj = backend()
-
-    # >
-
     # initialize obj <
     # start blink application <
-    obj = backend()
+    obj = module()
     await obj.start(icon = 'blink.png')
 
     # >
