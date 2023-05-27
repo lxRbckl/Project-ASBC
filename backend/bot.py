@@ -66,7 +66,7 @@ async def on_ready():
     # initialize object <
     # start blink application <
     obj = module()
-    await obj.start(icon = 'blink.png')
+    await obj.start(pIcon = 'blink.png')
 
     # >
 

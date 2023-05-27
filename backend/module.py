@@ -32,17 +32,52 @@ class module:
     async def start(
             
         self,
-        icon: str,
-        pSleep: int = 15
+        pIcon: str,
+        pSleep: int = 15,
+        pConfidence: float = 0.75
 
     ):
-        '''  '''
+        ''' wait for icon to appear '''
 
-        # open application given icon <
-        # wait for application to open <
-        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{icon}'))
-        await sleep(pSleep)
+        # # open application given icon <
+        # # wait for application to open <
+        # click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{icon}'))
+        # await sleep(pSleep)
 
+        # # >
+
+        # <
+        loc = locateOnScreen(
+
+            confidence = pConfidence,
+            image = f'{gDirectory}/{self.assetPath}/{pIcon}'
+
+        )
+
+        # >
+
+        # <
+        # <
+        if (loc): 
+            
+            click(
+                
+                x = loc.x,
+                y = loc.y
+
+            )
+            
+        else: 
+            
+            await sleep(pSleep)
+            self.start(
+
+                pIcon = pIcon,
+                pSleep = pSleep,
+                pConfidence = pConfidence
+
+            )
+        
         # >
 
     
