@@ -34,7 +34,7 @@ class module:
         self,
         pIcon: str,
         pSleep: int = 15,
-        pConfidence: float = 0.75
+        pConfidence: float = 0.70
 
     ):
         ''' wait for icon to appear '''
@@ -53,19 +53,13 @@ class module:
             image = f'{gDirectory}/{self.assetPath}/{pIcon}'
 
         )
+        print('loc:', loc)
 
         # >
 
         # <
         # <
-        if (loc): 
-            
-            click(
-                
-                x = loc.x,
-                y = loc.y
-
-            )
+        if (loc): click(loc)
             
         else: 
             
@@ -112,8 +106,6 @@ class module:
         images = []
 
         # >
-
-        print(type(status)) # remove
 
         # if (new video) <
         if (status):
