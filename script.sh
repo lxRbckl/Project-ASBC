@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-sleep 200
+sleep 120
 
 
 # locate where executable is (which poetry) #
