@@ -29,49 +29,33 @@ class module:
         self.configuration = self.update()
     
 
-    async def start(
+    async def select(
             
         self,
         pIcon: str,
-        pSleep: int = 15,
-        pConfidence: float = 0.70
+        pConfidence: float = 0.9
 
     ):
         ''' wait for icon to appear '''
 
-        # # open application given icon <
-        # # wait for application to open <
-        # click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{icon}'))
-        # await sleep(pSleep)
 
-        # # >
 
         # <
         loc = locateOnScreen(
 
+            grayscale = True,
             confidence = pConfidence,
             image = f'{gDirectory}/{self.assetPath}/{pIcon}'
 
         )
-        print('loc:', loc)
 
         # >
 
         # <
         # <
         if (loc): click(loc)
-            
-        else: 
-            
-            await sleep(pSleep)
-            self.start(
+        else: pass
 
-                pIcon = pIcon,
-                pSleep = pSleep,
-                pConfidence = pConfidence
-
-            )
-        
         # >
 
     
@@ -201,7 +185,6 @@ class module:
 
                         'object' : j.title(),
                         'path' : f'{path}/{i}/crops/{j}',
-                        'count' : len(listdir(path = f'{path}/{i}/crops/{j}')),
                         'file' : choice(listdir(path = f'{path}/{i}/crops/{j}'))
 
                     }

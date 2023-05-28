@@ -64,9 +64,7 @@ async def on_ready():
     ''' run functions of module on runtime '''
 
     # initialize object <
-    # start blink application <
     obj = module()
-    await obj.start(pIcon = 'blink.png')
 
     # >
 
@@ -77,6 +75,11 @@ async def on_ready():
         # if (online) <
         # else (then sleeping) <
         if (obj.configuration['online']):
+
+            # click icon <
+            obj.select(pIcon = 'blink.png')
+
+            # >
 
             # get status of footage <
             # record footage if new footage <
