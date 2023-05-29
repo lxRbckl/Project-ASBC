@@ -77,11 +77,6 @@ async def on_ready():
         # if (reboot needed) <
         if (obj.configuration['online']):
 
-            # # click icon <
-            # obj.select(pIcon = 'blink.png')
-
-            # # >
-
             # get status of footage <
             # record footage if new footage <
             # review and identify footage from recording <
