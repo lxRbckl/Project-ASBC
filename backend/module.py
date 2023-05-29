@@ -27,36 +27,6 @@ class module:
         '''  '''
 
         self.configuration = self.update()
-    
-
-    async def select(
-            
-        self,
-        pIcon: str,
-        pConfidence: float = 0.9
-
-    ):
-        ''' wait for icon to appear '''
-
-
-
-        # <
-        loc = locateOnScreen(
-
-            grayscale = True,
-            confidence = pConfidence,
-            image = f'{gDirectory}/{self.assetPath}/{pIcon}'
-
-        )
-
-        # >
-
-        # <
-        # <
-        if (loc): click(loc)
-        else: pass
-
-        # >
 
     
     def check(
@@ -152,7 +122,7 @@ class module:
                 if (reqWatch and reqConfidence):
 
                     result.crop(save_dir = f'{gDirectory}/{self.dataPath}/ultralytics')
-                    analyzed.append((name, round((confidence * 100), 2)))
+                    analyzed.append((name, (confidence * 100)))
 
                 # >
             
@@ -196,6 +166,19 @@ class module:
         # >
 
         return data
+    
+
+    async def refresh(self):
+        ''' retrieve new videos from Blink app '''
+
+        # click home and then clips button to refresh <
+        pngs = ['home.png', 'clips.png']
+        for png in pngs:
+
+            click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{png}'))
+            await sleep(2)
+        
+        # >
 
 
     def update(self):
@@ -209,18 +192,6 @@ class module:
         # >
 
         return configuration
-    
-
-    async def refresh(self):
-        ''' retrieve new videos from Blink app '''
-
-        # click home page <
-        # click clips page <
-        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/home.png'))
-        await sleep(2)
-        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/clips.png'))
-
-        # >
 
 
     def clear(self):
@@ -228,5 +199,21 @@ class module:
 
         # recursively remove files from directory <
         system(f'rm -r {gDirectory}/{self.dataPath}/')
+
+        # >
+    
+
+    async def restart(self):
+        ''' reboot the BlueStacks application to prevent crashing '''
+
+        # close window, confirm, and reopen application <
+        # wait for application to load <
+        pngs = ['close.png', 'yes.png', 'BlueStacks.png']
+        for png in pngs: 
+            
+            click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{png}'))
+            await sleep(2)
+        
+        await sleep(60)
 
         # >

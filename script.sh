@@ -1,9 +1,6 @@
 #! /bin/bash
 
 
-sleep 60
-
-
 # locate where executable is (which poetry) #
 POETRY='/Library/Frameworks/Python.framework/Versions/3.8/bin/poetry'
 

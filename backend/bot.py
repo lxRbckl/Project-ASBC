@@ -35,7 +35,7 @@ async def notify(
     # local <
     title = f'{object} identified.'
     f = File(f'{path}/{file}', filename = 'image.png')
-    description = f'**{object}** has been identified with **{confidence}**% confidence.'
+    description = f'**{object}** has been identified with **{confidence:.2f}**% confidence.'
 
     # >
 
@@ -64,22 +64,23 @@ async def on_ready():
     ''' run functions of module on runtime '''
 
     # initialize object <
+    iteration = 0
     obj = module()
+    threshold = 300
 
     # >
 
     # while (running) <
-    # otherwise restart OS <
     while (True):
 
         # if (online) <
-        # else (then sleeping) <
+        # if (reboot needed) <
         if (obj.configuration['online']):
 
-            # click icon <
-            obj.select(pIcon = 'blink.png')
+            # # click icon <
+            # obj.select(pIcon = 'blink.png')
 
-            # >
+            # # >
 
             # get status of footage <
             # record footage if new footage <
@@ -111,11 +112,16 @@ async def on_ready():
 
             # >
 
-        else: pass
+        if (iteration > threshold):
+
+            iteration = 0
+            await obj.restart()
 
         # >
 
         # cycle <
+        iteration += 1
+
         obj.update()
         await obj.refresh()
         await sleep(obj.configuration['sleep'])
