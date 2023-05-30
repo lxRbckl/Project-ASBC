@@ -28,6 +28,19 @@ class module:
 
         self.configuration = self.update()
 
+
+    async def load(
+            
+        self,
+        pIcon: str,
+        pSleep: int = 10
+
+    ):
+        ''' select the icon in which to load '''
+
+        click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{pIcon}'))
+        await sleep(pSleep)
+
     
     def check(
             
@@ -65,7 +78,7 @@ class module:
         if (status):
 
             # select new video <
-            click(status, clicks = 2)
+            click(status, clicks = 1)
             await sleep(3)
 
             # >
@@ -208,12 +221,10 @@ class module:
 
         # close window, confirm, and reopen application <
         # wait for application to load <
-        pngs = ['close.png', 'yes.png', 'BlueStacks.png']
-        for png in pngs: 
+        pngs = [(2, 'close.png'), (15, 'yes.png'), (60, 'BlueStacks.png')]
+        for wait, png in pngs: 
             
             click(locateOnScreen(image = f'{gDirectory}/{self.assetPath}/{png}'))
-            await sleep(2)
+            await sleep(wait)
         
-        await sleep(60)
-
         # >

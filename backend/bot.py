@@ -67,6 +67,8 @@ async def on_ready():
     iteration = 0
     obj = module()
     threshold = 300
+    icon = 'Blink.png'
+    # await obj.load(pIcon = icon)
 
     # >
 
@@ -111,6 +113,7 @@ async def on_ready():
 
             iteration = 0
             await obj.restart()
+            await obj.load(pIcon = icon)
 
         # >
 
