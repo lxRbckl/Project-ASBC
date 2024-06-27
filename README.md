@@ -11,6 +11,7 @@
 [`random`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/random.md)
 [`asyncio`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/asyncio.md)
 [`torch-hub`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/torch-hub.md)
+[`ultralytics`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/ultralytics.md)
 [`PIL`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/PIL.md)
 [`pyautogui`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/pyautogui.md)
 [`discord-py`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/discord-py.md)
