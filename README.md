@@ -16,5 +16,6 @@
 [`discord-py`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/discord-py.md)
 [`dash`](https://github.com/lxRbckl/lxRbckl/blob/main/Python/dash.md)
 [**`Shell`**](https://github.com/lxRbckl/lxRbckl/blob/main/Shell/README.md)
+[**`Mac OS`**](https://github.com/lxRbckl/lxRbckl/blob/main/Mac-OS/README.md)
 
 #
